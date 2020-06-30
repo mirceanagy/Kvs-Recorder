@@ -13,11 +13,12 @@ RUN apt-get install -y git && \
     apt-get install -y openjdk-8-jdk && \
     apt-get install -y m4 && \
     apt-get install -y pkg-config && \
+    apt-get install -y ffmpeg && \
     rm -rf /var/lib/apt/lists/*
 ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/
-WORKDIR /opt
+WORKDIR /opt/
 RUN git clone https://github.com/mirceanagy/Kvs-Recorder.git
-WORKDIR /opt/kvs-recorder
+WORKDIR /opt/Kvs-Recorder
 # Start the application
-COPY run.sh /opt/kvs-recorder/
-RUN chmod a+x /opt/kvs-recorder/run.sh
+COPY run.sh /opt/Kvs-Recorder/
+RUN chmod a+x /opt/Kvs-Recorder/run.sh
