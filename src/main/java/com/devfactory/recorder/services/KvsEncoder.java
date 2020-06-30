@@ -24,7 +24,7 @@ public class KvsEncoder {
             try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
                 FFmpeg.atPath(Paths.get(ffmpegBin))
                         .addInput(UrlInput.fromPath(inputFile.toPath()))
-                        .addOutput(UrlOutput.toPath(outputFile.toPath()))
+                        .addOutput(UrlOutput.toPath(outputFile.toPath())/*.setCodec(StreamType.VIDEO, "V_MPEG4/ISO/AVC")*//*.setFormat()*/.copyAllCodecs())
                         .setOverwriteOutput(true)
                         .execute();
                 return new FileInputStream(outputFile);
