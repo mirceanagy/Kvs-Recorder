@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-if [ "$#" != 4 ]; then
- echo " Usage: ./run-java-demoapp.sh access_key secret_key kvs_stream ffmpeg_bin_dir"
+if [ "$#" != 3 ]; then
+ echo " Usage: ./run-java-demoapp.sh access_key secret_key kvs_stream"
  exit
 fi
 ACCESS_KEY=$1
@@ -11,4 +11,4 @@ DFFMPEG_BIN=$4
 mvn package
 
 # Start the demo app
-java -Daws.accessKeyId=${ACCESS_KEY} -Daws.secretKey=${SECRET_KEY} -jar target/RTC-to-KVS-0.0.1-SNAPSHOT.jar --KVS_STREAM=${KVS_STREAM} --FFMPEG_BIN=${DFFMPEG_BIN}
+java -Daws.accessKeyId=${ACCESS_KEY} -Daws.secretKey=${SECRET_KEY} -jar target/RTC-to-KVS-0.0.1-SNAPSHOT.jar --KVS_STREAM=${KVS_STREAM} --FFMPEG_BIN="/usr/bin/"
