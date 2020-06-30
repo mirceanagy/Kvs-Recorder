@@ -1,13 +1,12 @@
 #!/bin/bash
 #
 if [ "$#" != 3 ]; then
- echo " Usage: ./run-java-demoapp.sh access_key secret_key kvs_stream"
+ echo " Usage: ./run.sh access_key secret_key kvs_stream"
  exit
 fi
 ACCESS_KEY=$1
 SECRET_KEY=$2
 KVS_STREAM=$3
-DFFMPEG_BIN=$4
 mvn package
 
 # Start the demo app

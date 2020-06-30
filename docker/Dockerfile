@@ -19,7 +19,6 @@ ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/
 WORKDIR /opt/
 RUN git clone https://github.com/mirceanagy/Kvs-Recorder.git
 WORKDIR /opt/Kvs-Recorder
-# Start the application
-COPY run.sh /opt/Kvs-Recorder/
-RUN chmod a+x /opt/Kvs-Recorder/run.sh
+RUN chmod a+x /opt/Kvs-Recorder/docker/run.sh
 EXPOSE 8080
+ENTRYPOINT ["./docker/run.sh"]
