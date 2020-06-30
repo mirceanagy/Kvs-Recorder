@@ -16,3 +16,8 @@ RUN apt-get install -y git && \
     rm -rf /var/lib/apt/lists/*
 ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/
 WORKDIR /opt
+RUN git clone https://github.com/mirceanagy/Kvs-Recorder.git
+WORKDIR /opt/kvs-recorder
+# Start the application
+COPY run.sh /opt/kvs-recorder/
+RUN chmod a+x /opt/kvs-recorder/run.sh

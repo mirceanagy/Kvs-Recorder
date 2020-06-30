@@ -1,9 +1,7 @@
 #!/bin/bash
-# Demo run of Java SDK application for sending video streams
-# within the docker container
 #
-if [ "$#" != 3 ]; then
- echo " Usage: ./run-java-demoapp.sh access_key secret_key kvs_stream"
+if [ "$#" != 4 ]; then
+ echo " Usage: ./run-java-demoapp.sh access_key secret_key kvs_stream ffmpeg_bin_dir"
  exit
 fi
 ACCESS_KEY=$1
