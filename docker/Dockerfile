@@ -22,3 +22,4 @@ WORKDIR /opt/Kvs-Recorder
 # Start the application
 COPY run.sh /opt/Kvs-Recorder/
 RUN chmod a+x /opt/Kvs-Recorder/run.sh
+EXPOSE 8080
