@@ -16,16 +16,19 @@ import java.io.InputStream;
 public class UploadController {
 
     @Autowired
-    private KvsStorageService storageService;
+    private FileSystemStorageService storageService;
 
     @Autowired
     private KvsEncoder encoder;
 
     @PostMapping("/upload")
     public void handleFileUpload(@RequestParam("filename") String fileName, @RequestParam("blob") MultipartFile file) {
-        try {
-            InputStream encodedInput = encoder.encode(file.getInputStream(), fileName);
-            storageService.store(fileName, encodedInput);
+        if (file.isEmpty()) {
+            throw new RuntimeException("Failed to store empty file " + fileName);
+        }
+        try (InputStream is = file.getInputStream()) {
+//            InputStream encodedInput = encoder.encode(file.getInputStream(), fileName);
+            storageService.store(fileName, is);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

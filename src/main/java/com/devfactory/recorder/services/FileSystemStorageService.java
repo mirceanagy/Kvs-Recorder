@@ -16,22 +16,17 @@ public class FileSystemStorageService {
     private final static String DIR = "C:/files";
     private final Path rootLocation = Paths.get(DIR);
 
-    public void store(String fileName, MultipartFile file) {
+    public void store(String fileName, InputStream is) {
         try {
             Files.createDirectories(rootLocation);
-            if (file.isEmpty()) {
-                throw new RuntimeException("Failed to store empty file " + fileName);
-            }
             if (fileName.contains("..")) {
                 // This is a security check
                 throw new RuntimeException(
                         "Cannot store file with relative path outside current directory "
                                 + fileName);
             }
-            try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, this.rootLocation.resolve(fileName),
-                        StandardCopyOption.REPLACE_EXISTING);
-            }
+            Files.copy(is, this.rootLocation.resolve(fileName),
+                    StandardCopyOption.REPLACE_EXISTING);
         }
         catch (IOException e) {
             throw new RuntimeException("Failed to store file " + fileName, e);

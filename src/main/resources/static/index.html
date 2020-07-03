@@ -74,7 +74,7 @@
         }
     </style>
 
-    <script src="https://www.webrtc-experiment.com/RecordRTC.js"></script>
+    <script src="./RecordRTC.js"></script>
     
     <!-- web streams API polyfill to support Firefox -->
     <script src="https://unpkg.com/@mattiasbuelens/web-streams-polyfill/dist/polyfill.min.js"></script>
@@ -123,6 +123,9 @@
                     <option>WebAssembly</option>
                 </select>
 
+                <span style="font-size: 15px;">MIME type override</span>
+                <input type="text" id="media-override" name="media-override"/>
+
                 <br>
 
                 <button id="btn-start-recording">Start Recording</button>
@@ -153,12 +156,12 @@
 
                 <select class="media-bitrates">
                     <option value="default">Default bitrates</option>
-                    <option value="8000000000">1 GB bps</option>
-                    <option value="800000000">100 MB bps</option>
-                    <option value="8000000">1 MB bps</option>
-                    <option value="800000">100 KB bps</option>
-                    <option value="8000">1 KB bps</option>
-                    <option value="800">100 Bytes bps</option>
+                    <option value="8000000000">1 GBps</option>
+                    <option value="800000000">100 MBps</option>
+                    <option value="8000000">1 MBps</option>
+                    <option value="800000">100 KBps</option>
+                    <option value="400000">50 KBps</option>
+                    <option value="800">100 Bps</option>
                 </select>
             </h2>
 
@@ -243,6 +246,7 @@
             var recordingPlayer = mediaElement.media;
             var recordingMedia = document.querySelector('.recording-media');
             var mediaContainerFormat = document.querySelector('.media-container-format');
+            var mediaOverride = document.querySelector('#media-override');
             var mimeType = 'video/webm';
             var fileExtension = 'webm';
             var type = 'video';
@@ -470,6 +474,14 @@
                     type = 'video';
                 }
 
+                if(mediaOverride.value) {
+                    mimeType = mediaOverride.value;
+                    fileExtension = 'mkv';
+                    recorderType = null;
+                    type = 'video';
+                }
+
+                setVideoBitrates();
                 if(recordingMedia.value === 'record-screen') {
                     captureScreen(commonConfig);
 
@@ -1168,7 +1180,9 @@
             function captureScreen(config) {
                 if (navigator.getDisplayMedia) {
                     navigator.getDisplayMedia({
-                        video: true
+                        video: {
+                            frameRate : 5
+                        }
                     }).then(screenStream => {
                         config.onMediaCaptured(screenStream);
 
