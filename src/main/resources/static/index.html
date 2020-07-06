@@ -495,7 +495,9 @@
                             timeSlice: 50000,
                             ondataavailable: function(blob) {
                                 console.log('blob', blob);
-                                uploadToServer('test-' + (new Date() / 1000 | 0) + '.' + fileExtension, blob);
+                                getSeekableBlob(blob, function(seekableBlob) {
+                                    uploadToServer('test-' + (new Date() / 1000 | 0) + '.' + fileExtension, seekableBlob);
+                                });
                             }
                         };
 
@@ -525,7 +527,7 @@
                             if (button.recording) {
                                 button.recordRTC.stopRecording();
                                 button.recordRTC.startRecording();
-                                looperPromise = setTimeout(looper, 10000);
+                                looperPromise = setTimeout(looper, 5000);
                             }
                         }
                         button.recording = true;
@@ -546,7 +548,6 @@
                             disableLogs: params.disableLogs || false,
                             getNativeBlob: false, // enable it for longer recordings
                             video: recordingPlayer,
-                            timeSlice: 50000,
                             ondataavailable: function(blob) {
                                 console.log('blob', blob);
                                 uploadToServer('test-' + (new Date() / 1000 | 0) + '.' + fileExtension, blob);

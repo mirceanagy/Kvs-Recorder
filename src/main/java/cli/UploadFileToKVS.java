@@ -10,10 +10,7 @@ import com.github.kokorin.jaffree.ffmpeg.FFmpeg;
 import com.github.kokorin.jaffree.ffmpeg.UrlInput;
 import com.github.kokorin.jaffree.ffmpeg.UrlOutput;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,8 +21,8 @@ import java.util.concurrent.CountDownLatch;
 public class UploadFileToKVS {
 
 //    private static final String MKV_FILE_PATH = "C:/dev/workspace/forked-kvs-java-demo/src/main/resources/data/mkv/clusters.mkv";
-//    private static final String MKV_FILE_PATH = "C:/files/test-out.mkv";
-    private static final String MKV_FILE_PATH = "C:/files/test-1593499766.mkv";
+    private static final String MKV_FILE_PATH = "C:/files/test-out.mkv";
+//    private static final String MKV_FILE_PATH = "C:/files/test-1593782448.mkv";
 
     /* connect timeout */
     private static final int CONNECTION_TIMEOUT_IN_MILLIS = 10_000;
@@ -36,20 +33,22 @@ public class UploadFileToKVS {
 
     public static void main(String[] args) {
         try {
-            try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
-                Path tmpPath = Paths.get(MKV_FILE_PATH + "tmp.mkv");
-                FFmpeg.atPath(Paths.get("C:/dev/ffmpeg-20200628-4cfcfb3-win64-static/bin"))
-                        .addInput(UrlInput.fromPath(Paths.get(MKV_FILE_PATH)))
-                        .addOutput(UrlOutput.toPath(tmpPath)/*.setFormat("mkv")*/)
-                        .setOverwriteOutput(true)
-                        .execute();
+//            try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+//                Path tmpPath = Paths.get(MKV_FILE_PATH + "tmp.mkv");
+//                FFmpeg.atPath(Paths.get("C:/dev/ffmpeg-20200628-4cfcfb3-win64-static/bin"))
+//                        .addInput(UrlInput.fromPath(Paths.get(MKV_FILE_PATH)))
+//                        .addOutput(UrlOutput.toPath(tmpPath)/*.setFormat("mkv")*/)
+//                        .setOverwriteOutput(true)
+//                        .execute();
 //                FFmpeg.atPath(Paths.get("C:/dev/ffmpeg-20200628-4cfcfb3-win64-static/bin"))
 //                        .addInput(PipeInput.pumpFrom(new FileInputStream(MKV_FILE_PATH)))
 //                        .addOutput(PipeOutput.pumpTo(outputStream))
 //                        .setOverwriteOutput(true)
 //                        .execute();
-                store(new FileInputStream(tmpPath.toFile()));
-            }
+//                store(new FileInputStream(tmpPath.toFile()));
+
+//            }
+            store(new FileInputStream(new File(MKV_FILE_PATH)));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -16,7 +16,10 @@ import java.io.InputStream;
 public class UploadController {
 
     @Autowired
-    private FileSystemStorageService storageService;
+    private FileSystemStorageService fileStorageService;
+
+    @Autowired
+    private KvsStorageService kvsStorageService;
 
     @Autowired
     private KvsEncoder encoder;
@@ -27,8 +30,9 @@ public class UploadController {
             throw new RuntimeException("Failed to store empty file " + fileName);
         }
         try (InputStream is = file.getInputStream()) {
-//            InputStream encodedInput = encoder.encode(file.getInputStream(), fileName);
-            storageService.store(fileName, is);
+//            fileStorageService.store(fileName, is);
+//            kvsStorageService.store(fileName, encoder.encode(file.getInputStream(), fileName));
+            kvsStorageService.store(fileName, is);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
