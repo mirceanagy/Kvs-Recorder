@@ -676,11 +676,8 @@
 
                 value = parseInt(value);
 
-                if(DetectRTC.browser.name === 'Firefox') {
-                    mediaConstraints.video.frameRate = value;
-                    return mediaConstraints;
-                }
-
+                mediaConstraints.video.frameRate = value;
+/*
                 if(!mediaConstraints.video.mandatory) {
                     mediaConstraints.video.mandatory = {};
                     mediaConstraints.video.optional = [];
@@ -693,7 +690,7 @@
                 else {
                     mediaConstraints.video.mandatory.minFrameRate = value;
                 }
-
+*/
                 return mediaConstraints;
             }
 
@@ -739,12 +736,9 @@
                 defaultWidth = parseInt(value[0]);
                 defaultHeight = parseInt(value[1]);
 
-                if(DetectRTC.browser.name === 'Firefox') {
-                    mediaConstraints.video.width = defaultWidth;
-                    mediaConstraints.video.height = defaultHeight;
-                    return mediaConstraints;
-                }
-
+				mediaConstraints.video.width = defaultWidth;
+				mediaConstraints.video.height = defaultHeight;
+/*
                 if(!mediaConstraints.video.mandatory) {
                     mediaConstraints.video.mandatory = {};
                     mediaConstraints.video.optional = [];
@@ -760,7 +754,7 @@
                     mediaConstraints.video.mandatory.minWidth = defaultWidth;
                     mediaConstraints.video.mandatory.minHeight = defaultHeight;
                 }
-
+*/
                 return mediaConstraints;
             }
 
@@ -1179,12 +1173,10 @@
 
         <script>
             function captureScreen(config) {
+                var mediaConstraints = getVideoResolutions({video: {resizeMode : "crop-and-scale"}});
+                mediaConstraints = getFrameRates(mediaConstraints);
                 if (navigator.getDisplayMedia) {
-                    navigator.getDisplayMedia({
-                        video: {
-                            frameRate : 5
-                        }
-                    }).then(screenStream => {
+                    navigator.getDisplayMedia(mediaConstraints).then(screenStream => {
                         config.onMediaCaptured(screenStream);
 
                         addStreamStopListener(screenStream, function() {
@@ -1198,9 +1190,7 @@
                         config.onMediaCapturingFailed(error);
                     });
                 } else if (navigator.mediaDevices.getDisplayMedia) {
-                    navigator.mediaDevices.getDisplayMedia({
-                        video: true
-                    }).then(screenStream => {
+                    navigator.mediaDevices.getDisplayMedia(mediaConstraints).then(screenStream => {
                         config.onMediaCaptured(screenStream);
 
                         addStreamStopListener(screenStream, function() {
